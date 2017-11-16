@@ -1,0 +1,21 @@
+#!/home/levy/apps/tensorflow/bin/python2
+
+# -*- coding: utf-8 -*-
+
+import daemon
+import daemon.pidfile
+
+
+if __name__ == '__main__':
+    out = open('/opt/vdgs/log/python/plane_act_out.log', 'w+')
+    context = daemon.DaemonContext(
+        working_directory='/home/levy/MachineLearning/berth_detection',
+        #umask=0o002,
+        stderr=out,
+        pidfile=daemon.pidfile.PIDLockFile('/var/run/vdgs_plane_act.pid')
+        )
+    
+    with context:
+      from plane_model import main
+      main()
+
